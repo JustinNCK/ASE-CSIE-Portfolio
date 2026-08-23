@@ -1,0 +1,8 @@
+Alice 19 55
+Bob 10 11
+Corina 4 220
+Mark 7 12
+Gilbert 2 300
+Ross 4 22
+Gilbert 6 56
+Mark 15 22

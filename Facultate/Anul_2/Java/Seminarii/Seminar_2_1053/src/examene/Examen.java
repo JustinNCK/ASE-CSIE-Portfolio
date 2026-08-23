@@ -1,0 +1,86 @@
+package examene;
+
+import java.util.Arrays;
+
+public class Examen extends Object implements Cloneable {
+    private String disciplina;
+    private Tip tip;
+    private Subiect[] subiecte;
+
+    public Examen() {
+        this.tip = Tip.NECUNOSCUT;
+    }
+
+    public Examen(String disciplina, Tip tip, Subiect[] subiecte) {
+        this.disciplina = disciplina;
+        this.tip = tip;
+        this.subiecte = subiecte;
+    }
+
+    public String getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(String disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public Tip getTip() {
+        return tip;
+    }
+
+    public void setTip(Tip tip) {
+        this.tip = tip;
+    }
+
+    public Subiect[] getSubiecte() {
+        return subiecte;
+    }
+
+    public void setSubiecte(Subiect[] subiecte) {
+        this.subiecte = subiecte;
+    }
+
+    // a se furniza o metoda pentru modificare unui subiect
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Examen examen)) return false;
+
+        if (!getDisciplina().equals(examen.getDisciplina())) return false;
+        if (getTip() != examen.getTip()) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(getSubiecte(), examen.getSubiecte());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDisciplina().hashCode();
+        result = 31 * result + getTip().hashCode();
+        result = 31 * result + Arrays.hashCode(getSubiecte());
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Examen clona = (Examen) super.clone();
+        Subiect[] subiecteClona = new Subiect[this.getSubiecte().length];
+        for (int i=0; i<this.getSubiecte().length; i++)
+            subiecteClona[i] = new Subiect(this.getSubiecte()[i].getNumar(),
+                    this.getSubiecte()[i].getEnunt());
+        clona.setSubiecte(subiecteClona);
+
+        return clona;
+    }
+
+    @Override
+    public String toString() {
+        return "Examen{" +
+                "disciplina='" + disciplina + '\'' +
+                ", tip=" + tip +
+                ", subiecte=" + Arrays.toString(subiecte) +
+                '}';
+    }
+}

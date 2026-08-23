@@ -1,0 +1,7 @@
+Având în vedere faptul că nimeni nu a rezolvat această problemă în timpul
+concursului, am decis să publicăm și sursa care a fost folosită pentru compilarea
+binarelor. Vulnerabilitatea care se prezintă aici se numește „Row Hammer”. Aceasta
+este doar simulată în cod, datorită faptului că este foarte de greu de exploatat
+în lumea reală.
+
+Happy Hacking!

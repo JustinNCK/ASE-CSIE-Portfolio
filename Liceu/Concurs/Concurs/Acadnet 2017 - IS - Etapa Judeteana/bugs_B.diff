@@ -1,0 +1,13 @@
+13,14c13,14
+< #define MIN_GRADE 0
+< #define MAX_GRADE 11
+---
+> #define MIN_GRADE 1
+> #define MAX_GRADE 10
+37a38,39
+>     fscanf(fin, "%*[^\n]\n"); // or just copy/paste the fscanf below
+> 
+65c67
+<     stats.mean_squared_error = sqrt((double)sum / (grades.next_index));
+---
+>     stats.mean_squared_error = sqrt((double)sum / (grades.next_index-1));

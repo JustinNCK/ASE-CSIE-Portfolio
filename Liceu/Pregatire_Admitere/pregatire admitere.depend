@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1721228565 source:c:\informatica\pregatire admitere\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<stdlib.h>
+	<cmath>
+

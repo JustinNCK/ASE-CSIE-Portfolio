@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1668021288 source:c:\informatica\lucru\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<iostream>
+	<iostream>
+	<iostream>
+

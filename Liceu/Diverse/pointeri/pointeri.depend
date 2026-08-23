@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1677093821 source:c:\informatica\pointeri\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<stdlib.h>
+	<cmath>
+

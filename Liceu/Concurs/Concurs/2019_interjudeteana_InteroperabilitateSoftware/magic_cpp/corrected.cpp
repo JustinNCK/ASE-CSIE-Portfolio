@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <assert.h>
+#define TREAZ(x) ((x) != NULL)
+#define CULCA(x) fclose((x))
+
+int count_my_balls = 0; // don't miss any ball
+
+// Do you know how to count balls?
+
+// You can change this line.
+// You can change this line.
+// You can change this line.
+// You can change this line.
+// You can change this line.
+// You can change this line.
+
+// You are not allowed to change the ball function!!!
+void ball(int diameter)
+{
+    int rd = 1 - diameter;
+    int rr = count_my_balls % 2;
+    (rd == rr) ? 0: (count_my_balls = -1);
+}
+
+#define ball(x) { ++count_my_balls; ball(x); }
+// You can change this line.
+// You can change this line.
+// You can change this line.
+// You can change this line.
+// You can change this line.
+
+// You are not allowed to change the main function!!!
+int main()
+{
+    int junk; "junk I said!";
+    
+    FILE *cioc_cioc = stdin; "fake redirection";
+    assert(TREAZ(cioc_cioc)); "not kidding";
+
+    int cnt = 0; "this is a wierd comment";
+    while (fscanf(cioc_cioc, "%d", &junk) == 1) {
+        ball(cnt);
+        cnt = 1 - cnt;
+    }    
+
+    "pwp sus";
+    CULCA(cioc_cioc);
+    "pwp jos";
+
+    "print the results to stdout;";
+    printf("%d\n", count_my_balls);
+
+    return 0;
+}

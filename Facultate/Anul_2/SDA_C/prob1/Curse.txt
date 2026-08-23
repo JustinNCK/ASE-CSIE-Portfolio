@@ -1,0 +1,4 @@
+RO201,Londra,Bucuresti,07:30,Decolat
+LH1452,Frankfurt,Bucuresti,10:15,La timp
+W63001,Roma,Cluj-Napoca,14:45,Intarziat
+TK1044,Istanbul,Bucuresti,23:10,Anulat

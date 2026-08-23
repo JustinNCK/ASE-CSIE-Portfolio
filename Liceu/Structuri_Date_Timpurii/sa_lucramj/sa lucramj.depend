@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1683135401 source:c:\informatica\sa lucramj\main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<string.h>
+	<cmath>
+

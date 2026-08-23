@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1730405864 source:c:\informatica\stiva\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<stdlib.h>
+	<cmath>
+

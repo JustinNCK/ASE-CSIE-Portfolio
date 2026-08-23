@@ -1,0 +1,96 @@
+-- Stocheaza departamentele spitalului (ex: Cardiologie, Chirurgie).
+CREATE TABLE DEPARTAMENTE (
+    id_departament NUMBER(4) PRIMARY KEY,
+    nume_departament VARCHAR2(100) NOT NULL UNIQUE,
+    locatie VARCHAR2(100)
+);
+
+-- Stocheaza datele demografice ale pacientilor.
+CREATE TABLE PACIENTI (
+    id_pacient NUMBER(10) PRIMARY KEY,
+    nume VARCHAR2(50) NOT NULL,
+    prenume VARCHAR2(50) NOT NULL,
+    cnp VARCHAR2(13) NOT NULL UNIQUE,
+    data_nasterii DATE,
+    adresa VARCHAR2(255)
+);
+
+-- Stocheaza personalul medical si departamentul de care apartin.
+CREATE TABLE MEDICI (
+    id_medic NUMBER(6) PRIMARY KEY,
+    id_departament NUMBER(4) NOT NULL,
+    nume VARCHAR2(50) NOT NULL,
+    prenume VARCHAR2(50) NOT NULL,
+    specializare VARCHAR2(100),
+    telefon_serviciu VARCHAR2(15),
+    
+    CONSTRAINT fk_medic_departament
+        FOREIGN KEY (id_departament)
+        REFERENCES DEPARTAMENTE(id_departament)
+);
+
+-- Stocheaza saloanele (camerele) spitalului si capacitatea acestora.
+CREATE TABLE SALOANE (
+    id_salon NUMBER(5) PRIMARY KEY,
+    id_departament NUMBER(4) NOT NULL,
+    numar_salon VARCHAR2(10) NOT NULL,
+    capacitate_totala NUMBER(2) NOT NULL CHECK (capacitate_totala > 0),
+    paturi_ocupate NUMBER(2) DEFAULT 0,
+    
+    CONSTRAINT fk_salon_departament
+        FOREIGN KEY (id_departament)
+        REFERENCES DEPARTAMENTE(id_departament)
+);
+
+-- Gestioneaza programarile (consultatiile) dintre pacienti si medici.
+CREATE TABLE CONSULTATII (
+    id_consultatie NUMBER(10) PRIMARY KEY,
+    id_pacient NUMBER(10) NOT NULL,
+    id_medic NUMBER(6) NOT NULL,
+    data_ora TIMESTAMP,
+    status_programare VARCHAR2(50) DEFAULT 'Programată',
+    
+    CONSTRAINT fk_consult_pacient
+        FOREIGN KEY (id_pacient)
+        REFERENCES PACIENTI(id_pacient),
+    CONSTRAINT fk_consult_medic
+        FOREIGN KEY (id_medic)
+        REFERENCES MEDICI(id_medic)
+);
+
+-- Contine fisa medicala (diagnostice si tratamente) a pacientilor.
+CREATE TABLE ISTORIC_MEDICAL (
+    id_fisa NUMBER(10) PRIMARY KEY,
+    id_pacient NUMBER(10) NOT NULL,
+    id_medic NUMBER(6) NOT NULL,
+    data_inregistrare DATE DEFAULT SYSDATE,
+    diagnostic VARCHAR2(500) NOT NULL,
+    tratament VARCHAR2(1000),
+    
+    CONSTRAINT fk_istoric_pacient
+        FOREIGN KEY (id_pacient)
+        REFERENCES PACIENTI(id_pacient),
+    CONSTRAINT fk_istoric_medic
+        FOREIGN KEY (id_medic)
+        REFERENCES MEDICI(id_medic)
+);
+
+-- Gestioneaza internarile active ale pacientilor in saloane.
+CREATE TABLE INTERNARI (
+    id_internare NUMBER(10) PRIMARY KEY,
+    id_pacient NUMBER(10) NOT NULL,
+    id_salon NUMBER(5) NOT NULL,
+    id_medic_responsabil NUMBER(6) NOT NULL,
+    data_internare DATE NOT NULL,
+    data_externare DATE, -- Poate fi NULL daca pacientul este inca internat
+    
+    CONSTRAINT fk_internare_pacient
+        FOREIGN KEY (id_pacient)
+        REFERENCES PACIENTI(id_pacient),
+    CONSTRAINT fk_internare_salon
+        FOREIGN KEY (id_salon)
+        REFERENCES SALOANE(id_salon),
+    CONSTRAINT fk_internare_medic
+        FOREIGN KEY (id_medic_responsabil)
+        REFERENCES MEDICI(id_medic)
+);

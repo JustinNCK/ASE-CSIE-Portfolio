@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1689181443 source:c:\informatica\liste dublu inlantuite\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<stdlib.h>
+	<cmath>
+

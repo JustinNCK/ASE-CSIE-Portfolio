@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1709922375 source:c:\informatica\posibil_concurs\main.cpp
+	<iostream>
+	<fstream>
+	<string.h>
+	<stdlib.h>
+	<cmath>
+	<iomanip>
+	<vector>
+	<algorithm>
+	<assert.h>
+	<sstream>
+	<bits/stdc++.h>
+	<cassert>
+	<cstdio>
+	<queue>
+

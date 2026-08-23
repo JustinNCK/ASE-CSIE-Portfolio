@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="pregatire_bac" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/pregatire_bac" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/pregatire_bac" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="F1.txt" />
+		<Unit filename="F2.txt" />
+		<Unit filename="bac.in" />
+		<Unit filename="bac.txt" />
+		<Unit filename="bac1.txt" />
+		<Unit filename="bac10.txt" />
+		<Unit filename="bac11.txt" />
+		<Unit filename="bac12.txt" />
+		<Unit filename="bac13.txt" />
+		<Unit filename="bac14.txt" />
+		<Unit filename="bac15.txt" />
+		<Unit filename="bac16.txt" />
+		<Unit filename="bac17.txt" />
+		<Unit filename="bac18.txt" />
+		<Unit filename="bac2.txt" />
+		<Unit filename="bac3.txt" />
+		<Unit filename="bac4.txt" />
+		<Unit filename="bac5.txt" />
+		<Unit filename="bac7.txt" />
+		<Unit filename="bac8.txt" />
+		<Unit filename="bac9.txt" />
+		<Unit filename="main.cpp" />
+		<Unit filename="serbare.txt" />
+		<Unit filename="valori.in" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

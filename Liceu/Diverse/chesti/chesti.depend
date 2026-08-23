@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1651686049 source:c:\informatica\chesti\main.cpp
+	<iostream>
+	<fstream>
+

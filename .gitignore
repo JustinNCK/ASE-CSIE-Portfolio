@@ -1,0 +1,74 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.vcxproj.user
+*.vcxproj.filters
+*.slnLaunch*
+CppProperties.json
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.idb
+*.ipch
+*.tlog
+*.recipe
+*.log
+*.FileListAbsolute.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.Python
+pip-log.txt
+CACHEDIR.TAG
+*.pyd
+
+# Java / IntelliJ
+*.class
+out/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# C# / .NET
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.dbmdl
+*.jfm
+localtestrun.testlog
+
+# Archives
+*.rar
+*.zip
+*.7z
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Database files (keep in repo for reference, but uncomment to ignore)
+# *.db

@@ -1,0 +1,249 @@
+import org.json.JSONArray;
+import org.json.JSONTokener;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ceva {
+    /// Fisier text
+    try (
+    BufferedReader bf = new BufferedReader(new FileReader("src\\PretVolum.txt"))) {
+        String linie;
+        // Sărim peste capul de tabel dacă fișierul are unul, altfel prima linie va fi ignorată!
+        linie = bf.readLine();
+        while ((linie = bf.readLine()) != null) {
+            String[] valori = linie.split(",");
+            if (valori.length == 6) {
+                String simbol = valori[0];
+                double pret_deschidere = Double.parseDouble(valori[1].trim());
+                double pret_max = Double.parseDouble(valori[2].trim());
+                double pret_min = Double.parseDouble(valori[3].trim());
+                double pret_inchidere = Double.parseDouble(valori[4].trim());
+                long volum = Long.parseLong(valori[5].trim()); // Folosit Long.parseLong pentru volum (long)
+
+                PretVolum pv = new PretVolum(simbol, pret_deschidere, pret_max, pret_min, pret_inchidere, volum);
+                preturi.add(pv);
+            }
+        }
+    } catch (
+    IOException e) {
+        throw new RuntimeException(e);
+    }
+
+    /// Fisier JSON normal
+    try(
+    FileReader fr = new FileReader("src\\sectii.json")){
+        var jsonSectii = new JSONArray(new JSONTokener(fr));
+        for(int i = 0; i < jsonSectii.length(); i++){
+            var jsonSectie =jsonSectii.getJSONObject(i);
+            var sectie = new Sectii(
+                    jsonSectie.getInt("cod_sectie"),
+                    jsonSectie.getString("denumire"),
+                    jsonSectie.getInt("numar_locuri"));
+            sectii.add(sectie);
+        }
+    } catch (
+    IOException e) {
+        System.out.println("Nu s-a putut deschide fisierul JSON");
+        throw new RuntimeException(e);
+    }
+
+    /// Fisier JSON imbricat
+    List<SpecialitatiMedicale> medicale = new ArrayList<>();
+        try(FileReader f = new FileReader("src\\medicale.json")){
+        var jsonMedicale = new JSONArray(new JSONTokener(f));
+        for(int i = 0; i < jsonMedicale.length(); i++){
+            var jsonMedical = jsonMedicale.getJSONObject(i);
+            String specialitate = jsonMedical.getString("specialitate");
+            var jsonManevre = jsonMedical.getJSONArray("manevre");
+            List<Manevre> manevre = new ArrayList<>();
+            for(int j = 0; j < jsonManevre.length(); j++){
+                var jsonManevra = jsonManevre.getJSONObject(j);
+                var manevra = new Manevre(
+                        jsonManevra.getInt("cod"),
+                        jsonManevra.getInt("durata"),
+                        jsonManevra.getDouble("tarif")
+                );
+
+                manevre.add(manevra);
+            }
+            SpecialitatiMedicale medical = new SpecialitatiMedicale(specialitate, manevre);
+            medicale.add(medical);
+        }
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+
+    /// baze de date
+    List<Consultatii> consultatii = new ArrayList<>();
+        try(
+    Connection con = DriverManager.getConnection("jdbc:sqlite:src/consultatii.db")){
+        Statement stnt = con.createStatement();
+        ResultSet rs = stnt.executeQuery("SELECT Specialitate, CodManevra, Numar FROM Consultatii");
+        while(rs.next()){
+            Consultatii consulatie = new Consultatii(
+                    rs.getString("Specialitate"),
+                    rs.getInt("Numar"),
+                    rs.getInt("CodManevra")
+            );
+            consultatii.add(consulatie);
+        }
+    } catch (
+    SQLException e) {
+        throw new RuntimeException(e);
+    }
+
+    /// TCP/IP
+    new Thread(() -> {
+        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+            while(true){
+                try (Socket serverClient = serverSocket.accept()) {
+                    BufferedReader bfi = new BufferedReader(new InputStreamReader(serverClient.getInputStream()));
+                    String simbol = bfi.readLine();
+
+                    PretVolum pv = preturi.stream().filter(v -> (simbol.equals(v.getSimbol()))).findFirst().orElse(null);
+
+                    PrintWriter pr = new PrintWriter(serverClient.getOutputStream(), true);
+                    if(pv != null)
+                        pr.println(tabeleTitluri.get(simbol) + " " + pv.getPret_inchidere() + " " + pv.getVolum());
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Serverul nu s-a putut deschide");
+        }
+    }).start();
+
+        try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+    }
+
+        try (Socket socket = new Socket("localhost", 8080)) {
+        PrintWriter pr = new PrintWriter(socket.getOutputStream(), true);
+        pr.println("AADR");
+
+        BufferedReader bfi = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String ceva = bfi.readLine();
+
+        System.out.println(ceva);
+
+    } catch (IOException e) {
+        System.out.println("Clientul nu s-a putut deschide");
+    }
+
+
+    /// Scriere fisier xml
+        try {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+
+        Element radacina = doc.createElement("medicale");
+        doc.appendChild(radacina);
+
+        Element spec = doc.createElement("specialitate");
+        radacina.appendChild(spec);
+
+        Element denumire = doc.createElement("denumire");
+        denumire.setTextContent("Oftalmologie");
+        spec.appendChild(denumire);
+
+        Element manevra = doc.createElement("manevra");
+        manevra.setAttribute("cod", "102");
+        spec.appendChild(manevra);
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+        DOMSource sursa = new DOMSource(doc);
+        StreamResult fisierFinal = new StreamResult(new File("manevreMedicale.xml"));
+        transformer.transform(sursa, fisierFinal);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+
+    /// Scriere baze de date (INSERT / UPDATE)
+        try (
+    Connection conn = DriverManager.getConnection("jdbc:sqlite:date/consultatii.db");
+    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Consultatii (Specialitate, CodManevra, Numar) VALUES (?, ?, ?)")) {
+
+        pstmt.setString(1, "Chirurgie");
+        pstmt.setInt(2, 505);
+        pstmt.setInt(3, 10);
+        pstmt.executeUpdate();
+
+    } catch (
+    SQLException e) {
+        e.printStackTrace();
+    }
+
+    /// Scriere fisier json
+        try (FileWriter file = new FileWriter("date/raport.json")) {
+        JSONArray arrayFinal = new JSONArray();
+        JSONObject clientNou = new JSONObject();
+
+        clientNou.put("codProdus", 101);
+        clientNou.put("tip", "intrare");
+        clientNou.put("cantitate", 50);
+
+        arrayFinal.put(clientNou);
+        file.write(arrayFinal.toString(4));
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    /// Citire fisier XML
+        try {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new File("date/input.xml"));
+        doc.getDocumentElement().normalize();
+
+        // Extragem toate tag-urile cu un anumit nume (ex: <manevra>)
+        NodeList listaNoduri = doc.getElementsByTagName("manevra");
+
+        for (int i = 0; i < listaNoduri.getLength(); i++) {
+            Node nod = listaNoduri.item(i);
+
+            if (nod.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) nod;
+
+                // Citirea unui atribut: <manevra cod="102">
+                int cod = Integer.parseInt(element.getAttribute("cod"));
+
+                // Citirea textului dintre tag-uri: <denumire>Oftalmologie</denumire>
+                // String denumire = element.getElementsByTagName("denumire").item(0).getTextContent();
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+
+}
+}

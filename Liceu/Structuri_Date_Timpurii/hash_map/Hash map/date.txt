@@ -1,0 +1,15 @@
+14 Schimb_distributie Radu 3500.47 3
+3 Inlocuire_frane Mihai 700.15 4
+9 Curatare_injectoare Ana 600.92 2
+7 Verificare_sistem_electric Marcel 800.58 3
+1 Schimb_ulei Alex 250.31 2
+12 Reparatie_ambreiaj George 2500.84 4
+4 Reparatie_motor Elena 3500.09 3
+8 Schimb_amortizoare Victor 1200.76 5
+11 Echilibrare_roti Adrian 150.42 1
+2 Revizie_completa Ioana 1200.33 1
+15 Verificare_suspensie Elena 900.88 3
+10 Montare_anvelope Stefan 300.65 1
+5 Reglaj_directie Andrei 400.27 3
+13 Diagnosticare_motor Bianca 700.99 2
+6 Schimb_placute_frana Daniel 500.73 2
