@@ -24,8 +24,8 @@ Cele mai reprezentative proiecte sunt în [Highlights/](./Highlights).
 
 | Secțiune | Descriere |
 |---|---|
-| [Facultate/Anul_1](./Facultate/Anul_1) | Assembly x86 (BTI) |
-| [Facultate/Anul_2](./Facultate/Anul_2) | SDA (C), PAW (C#), Java, POO (C++), PEAG (Python), Baze de Date, SGBD |
+| [Facultate/Anul_1](./Facultate/Anul_1) | Structuri de Date în C (SDA), Assembly x86 (BTI) |
+| [Facultate/Anul_2](./Facultate/Anul_2) | PAW (C#), Java, POO (C++), PEAG (Python), Baze de Date, SGBD |
 | [Liceu](./Liceu) | Arhivă cronologică — exerciții liceu, pregătire BAC/admitere, concursuri |
 | [Personal_Projects](./Personal_Projects) | Proiecte independente |
 
