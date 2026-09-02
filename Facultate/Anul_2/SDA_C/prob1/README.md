@@ -1,6 +1,6 @@
 # prob1 — Gestiune Curse Aeriene
 
-**Materie:** Structuri de Date și Algoritmi (SDA) · **An:** Anul 1
+**Materie:** Structuri de Date și Algoritmi (SDA) · **An:** Anul 2
 
 ## Ce face
 

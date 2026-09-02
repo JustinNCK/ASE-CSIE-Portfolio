@@ -2,6 +2,7 @@
 
 | Folder | Materie | Descriere |
 |---|---|---|
+| [SDA_C/](./SDA_C) | Structuri de Date și Algoritmi | Liste înlănțuite, tabele hash, alocare dinamică — C |
 | [PAW_CSharp/](./PAW_CSharp) | Programare Avansată Windows | WinForms, delegați, interfețe, serializare XML — C# |
 | [Java/](./Java) | Java | POO, SQLite, JSON, Generics, Networking — Java |
 | [POO_CPP/](./POO_CPP) | Programare Orientată pe Obiecte | Clase, moștenire, polimorfism, memory management — C++ |
